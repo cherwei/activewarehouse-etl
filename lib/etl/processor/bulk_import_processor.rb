@@ -27,6 +27,8 @@ module ETL #:nodoc:
       attr_accessor :disable_keys
       # replace existing records, not just insert
       attr_accessor :replace
+      # local inline
+      attr_accessor :local_infile
        
       # Initialize the processor.
       #
@@ -56,6 +58,7 @@ module ETL #:nodoc:
         @field_enclosure = configuration[:field_enclosure]
         @disable_keys = configuration[:disable_keys] || false
         @replace = configuration[:replace] || false
+        @local_infile = configuration[:local_infile] || false
         
         raise ControlError, "Target must be specified" unless @target
         raise ControlError, "Table must be specified" unless @table
@@ -74,6 +77,7 @@ module ETL #:nodoc:
           
           options[:disable_keys] = true if disable_keys
           options[:replace] = true if replace
+          options[:local_infile] = true if local_infile
           
           if field_separator || field_enclosure || line_separator || null_string
             options[:fields] = {}
